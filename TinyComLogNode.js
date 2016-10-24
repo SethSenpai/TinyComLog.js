@@ -78,27 +78,43 @@ listPorts();
     }
 
     if (line == "start"){
-        try{
-        port = new SerialPort(deviceName, {
-        parser: SerialPort.parsers.readline('\n'),
-        baudrate:baudRate
-        });
-        }
-        catch(err)
-        {
-            console.log("failed to open port. Did you input the right name?");
-        }
+        var working = false;
+        SerialPort.list(function (err, ports) {
+          ports.forEach(function(porte) {
+              if(porte.comName == deviceName)
+              {  
+                   try
+                    {
+                        port = new SerialPort(deviceName, {
+                        parser: SerialPort.parsers.readline('\n'),
+                        baudrate:baudRate
+                        });
 
-        try{
-            port.on('data', function (data) {
-            console.log(': ' + data);
-            logToFile(data);
-            });
-        }
-        catch(err)
-        {
-            console.log("failed to write to file.");
-        }
+                        working = true;
+                    }
+                    catch(err)
+                    {
+                        console.log("failed to open port. Did you input the right name?");
+                    }
+
+                    try{
+                        port.on('data', function (data) {
+                        console.log(': ' + data);
+                        logToFile(data);
+                        });
+                    }
+                    catch(err)
+                    {
+                        console.log("failed to write to file.");
+                    }
+              }
+          });
+            if(working == false){
+            console.log("failed to open port. Did you input the right name?");
+            }   
+        });
+
+
     }
 
     if (line == "stop"){
