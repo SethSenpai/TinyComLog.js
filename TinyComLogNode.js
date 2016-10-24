@@ -17,17 +17,8 @@ const rl = readline.createInterface({
   prompt: '> ' 
 });
 
-SerialPort.list(function (err, ports) {
-    console.log("current ports on system.");
-    console.log("--------------------------");
-  ports.forEach(function(port) {
-    console.log(port.comName);
-    console.log(port.pnpId);
-    console.log(port.manufacturer);
-    console.log("--------------------------");
-  });
-  rl.prompt();
-});
+listPorts();
+
 
   rl.on('line', function(line, lineCount, byteCount) {
     if(line == "exit"){
@@ -52,6 +43,7 @@ SerialPort.list(function (err, ports) {
         var command = line.split(" ");
         filePath = "data/" + command[1];
     }    
+    
     if (line == "toggleLog"){
         if(logData == false){
             logData = true;
@@ -62,6 +54,22 @@ SerialPort.list(function (err, ports) {
             logData = false;
             console.log("Data logging is disabled");
         }
+    }
+
+    if (line == "toggleTimestamp"){
+        if(timeStamp == false){
+            timeStamp = true;
+            console.log("Now adding a timestamp to every entry");
+        }
+        else
+        {
+            timeStamp = false;
+            console.log("Entries will be logged without timestamp");
+        }
+    }
+
+    if (line == "list"){
+        listPorts();
     }
 
     if (line == "start"){
@@ -151,4 +159,18 @@ function getDateTime() {
 
     return year + ":" + month + ":" + day + ":" + hour + ":" + min + ":" + sec;
 
+}
+
+function listPorts() {
+        SerialPort.list(function (err, ports) {
+        console.log("current ports on system.");
+        console.log("--------------------------");
+    ports.forEach(function(port) {
+        console.log(port.comName);
+        console.log(port.pnpId);
+        console.log(port.manufacturer);
+        console.log("--------------------------");
+    });
+    rl.prompt();
+    });
 }
