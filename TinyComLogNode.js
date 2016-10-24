@@ -17,6 +17,10 @@ const rl = readline.createInterface({
   prompt: '> ' 
 });
 
+if (!fs.existsSync("data")){
+    fs.mkdirSync("data");
+}
+
 listPorts();
 
 
