@@ -14,7 +14,8 @@ var port;
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
-  prompt: '> ' 
+  prompt: '> ',
+  completer: tabComp
 });
 
 if (!fs.existsSync("data")){
@@ -177,4 +178,11 @@ function listPorts() {
     });
     rl.prompt();
     });
+}
+
+function tabComp(line) {
+  var completions = 'start stop setFile setPort setRate toggleLog toggleTimestamp exit list'.split(' ');
+  var hits = completions.filter((c) => { return c.indexOf(line) == 0 });
+  // show all completions if none found
+  return [hits.length ? hits : completions, line];
 }
