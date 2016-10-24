@@ -78,20 +78,38 @@ listPorts();
     }
 
     if (line == "start"){
+        try{
         port = new SerialPort(deviceName, {
         parser: SerialPort.parsers.readline('\n'),
         baudrate:baudRate
         });
+        }
+        catch(err)
+        {
+            console.log("failed to open port. Did you input the right name?");
+        }
 
-        port.on('data', function (data) {
-         console.log(': ' + data);
-         logToFile(data);
-        });
+        try{
+            port.on('data', function (data) {
+            console.log(': ' + data);
+            logToFile(data);
+            });
+        }
+        catch(err)
+        {
+            console.log("failed to write to file.");
+        }
     }
 
     if (line == "stop"){
+        try
+        {
         port.close();
         console.log('stopping readout.');
+        }
+        catch(err){
+            console.log("nothing to close or stop");
+        }
     }
 
 
