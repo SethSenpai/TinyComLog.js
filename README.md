@@ -18,6 +18,8 @@ writing the data to the file specified.
 
 `stop` stops the readout of data and the logging.
 
+`settings` will list the current settings for the program.
+
 `setPort <value_here>` set the device that the program should
 connect to. /dev/ is automatically appended and should be
 omitted. Example: `setPort ttyAMC0`

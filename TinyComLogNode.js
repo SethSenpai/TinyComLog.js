@@ -77,6 +77,16 @@ listPorts();
         listPorts();
     }
 
+    if (line == "settings"){
+        console.log("Current settings: ");
+        console.log("--------------------------");
+        console.log("Device name: " + deviceName);
+        console.log("Baudrate: " + baudRate);
+        console.log("Logging: " + logData);
+        console.log("Filename: " + filePath);
+        console.log("Timestamping data: " + timeStamp);
+    }
+
     if (line == "start"){
         var working = false;
         SerialPort.list(function (err, ports) {
